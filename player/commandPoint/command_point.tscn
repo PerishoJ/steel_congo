@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://clg3awfyiepdk"]
+
+[ext_resource type="Script" path="res://player/commandPoint/CommandPoint.gd" id="1_gb1l6"]
+[ext_resource type="PackedScene" uid="uid://5sl0uj2w3ebv" path="res://fx/grape_juice_explosion.tscn" id="2_ov4ak"]
+
+[sub_resource type="Gradient" id="Gradient_o4bn5"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0.984314, 0.32549, 0.717647)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_v2xar"]
+gradient = SubResource("Gradient_o4bn5")
+fill_from = Vector2(0.517094, 0.294872)
+fill_to = Vector2(0.517094, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wdfil"]
+transparency = 1
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+albedo_texture = SubResource("GradientTexture2D_v2xar")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tkcpt"]
+
+[node name="CommandPoint" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.71547)
+script = ExtResource("1_gb1l6")
+grapeJuice = ExtResource("2_ov4ak")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_wdfil")
+mesh = SubResource("CylinderMesh_tkcpt")

@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkll8wbvgc6wk"]
+
+[ext_resource type="Script" path="res://player/PlayerController.gd" id="1_tddn6"]
+[ext_resource type="Texture2D" uid="uid://bqjbgi2xn62g8" path="res://fx/particles/magic_03.png" id="2_2t0gh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c2spt"]
+height = 1.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4o6cj"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_sb7od"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_epf03"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.567994, 0)
+script = ExtResource("1_tddn6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.109863, 0)
+shape = SubResource("CapsuleShape3D_c2spt")
+
+[node name="Neck" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.271836, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Player Name" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Player"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+material = SubResource("CanvasItemMaterial_4o6cj")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(-0.0352338, 0.036959)
+pivot_offset = Vector2(261.102, 251.819)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_2t0gh")
+stretch_mode = 2
+
+[node name="SelectBox" type="Area3D" parent="."]
+collision_layer = 0
+input_ray_pickable = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SelectBox"]
+mesh = SubResource("BoxMesh_sb7od")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SelectBox"]
+shape = SubResource("BoxShape3D_epf03")

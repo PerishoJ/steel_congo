@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://5sl0uj2w3ebv"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jnuh4"]
+direction = Vector3(0, 1, 0)
+gravity = Vector3(0, -50, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 13.0
+color = Color(0.72549, 0, 0.635294, 0.776471)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibs0p"]
+transparency = 1
+vertex_color_use_as_albedo = true
+metallic = 0.55
+metallic_specular = 0.63
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_hogk3"]
+material = SubResource("StandardMaterial3D_ibs0p")
+radius = 0.25
+height = 0.4
+radial_segments = 4
+rings = 3
+
+[node name="GrapeJuiceExplosion" type="GPUParticles3D"]
+emitting = false
+amount = 12
+lifetime = 0.74
+one_shot = true
+explosiveness = 0.88
+process_material = SubResource("ParticleProcessMaterial_jnuh4")
+draw_pass_1 = SubResource("SphereMesh_hogk3")

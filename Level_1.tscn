@@ -1,0 +1,107 @@
+[gd_scene load_steps=20 format=3 uid="uid://b0nyod816v670"]
+
+[ext_resource type="Texture2D" uid="uid://bs7kdq6insoux" path="res://levels/sky/SkySkybox.png" id="1_5bxh1"]
+[ext_resource type="Texture2D" uid="uid://qs7ce4iassro" path="res://levels/TexturesCom_Scifi_Panel_512_albedo.png" id="1_sxd31"]
+[ext_resource type="PackedScene" uid="uid://nsrp05i8ffmn" path="res://bot/bot.tscn" id="1_tc18i"]
+[ext_resource type="Texture2D" uid="uid://141305asrfij" path="res://levels/TexturesCom_Scifi_Panel_512_height.png" id="2_5swgn"]
+[ext_resource type="Texture2D" uid="uid://yl2kn6ir3hxn" path="res://levels/TexturesCom_Scifi_Panel_512_normal.png" id="3_fskbp"]
+[ext_resource type="Script" path="res://GameController.gd" id="5_017x8"]
+[ext_resource type="PackedScene" uid="uid://dkll8wbvgc6wk" path="res://player/player.tscn" id="7_iqk8n"]
+[ext_resource type="PackedScene" uid="uid://clg3awfyiepdk" path="res://player/commandPoint/command_point.tscn" id="8_gbeg4"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_j2kfa"]
+panorama = ExtResource("1_5bxh1")
+
+[sub_resource type="Sky" id="Sky_tbf0y"]
+sky_material = SubResource("PanoramaSkyMaterial_j2kfa")
+
+[sub_resource type="Environment" id="Environment_xccmh"]
+background_mode = 2
+sky = SubResource("Sky_tbf0y")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4q1i"]
+shading_mode = 2
+albedo_color = Color(0.215686, 0.631373, 0.447059, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a2q0q"]
+material = SubResource("StandardMaterial3D_i4q1i")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dx08p"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngr02"]
+albedo_color = Color(0.980392, 0.529412, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_gdepl"]
+material = SubResource("StandardMaterial3D_ngr02")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4jj2j"]
+albedo_texture = ExtResource("1_sxd31")
+normal_enabled = true
+normal_texture = ExtResource("3_fskbp")
+heightmap_enabled = true
+heightmap_texture = ExtResource("2_5swgn")
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a7v1i"]
+size = Vector2(1, 1)
+subdivide_width = 4
+subdivide_depth = 4
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nudev"]
+
+[node name="Level" type="Node3D"]
+
+[node name="Bot" parent="." instance=ExtResource("1_tc18i")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, 0)
+debug = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xccmh")
+
+[node name="Factory" type="Node3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Factory"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_a2q0q")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Factory"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Factory/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_dx08p")
+
+[node name="Scrap" type="Node3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 22.0021)
+
+[node name="Mesh" type="MeshInstance3D" parent="Scrap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("PrismMesh_gdepl")
+
+[node name="GameController" type="Node" parent="." node_paths=PackedStringArray("level")]
+script = ExtResource("5_017x8")
+level = NodePath("..")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Floor" type="Node3D" parent="."]
+transform = Transform3D(128, 0, 0, 0, 1, 0, 0, 0, 128, 0, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+material_override = SubResource("StandardMaterial3D_4jj2j")
+mesh = SubResource("PlaneMesh_a7v1i")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_nudev")
+
+[node name="Player" parent="." instance=ExtResource("7_iqk8n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.98178, 0.567994, 8.96696)
+
+[node name="CommandPoint" parent="." instance=ExtResource("8_gbeg4")]
+
+[connection signal="command_to_location" from="Player" to="Bot" method="_on_player_command_to_location"]
+[connection signal="command_to_location" from="Player" to="CommandPoint" method="_on_player_command_to_location"]

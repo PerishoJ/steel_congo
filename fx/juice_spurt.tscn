@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://byi3kiquqdw2j"]
+
+[sub_resource type="Curve" id="Curve_xntai"]
+_data = [Vector2(0.00310559, 0.509091), 0.0, 0.0, 0, 0, Vector2(0.487578, 1), 0.0, 0.0, 0, 0, Vector2(0.701863, 1), 0.0, 0.0, 0, 0, Vector2(0.850932, 0.281818), -0.632923, -0.632923, 0, 0, Vector2(1, 0.109091), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_gwjj7"]
+curve = SubResource("Curve_xntai")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xp77r"]
+emission_shape = 2
+emission_sphere_radius = 0.1
+direction = Vector3(0, 1, 0)
+spread = 5.47
+gravity = Vector3(0, -40, 0)
+initial_velocity_min = 9.0
+initial_velocity_max = 15.0
+angular_velocity_min = 41.61
+angular_velocity_max = 66.59
+scale_curve = SubResource("CurveTexture_gwjj7")
+color = Color(0.72549, 0, 0.635294, 0.776471)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3me1l"]
+transparency = 1
+vertex_color_use_as_albedo = true
+metallic = 0.12
+metallic_specular = 0.29
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_72g6y"]
+material = SubResource("StandardMaterial3D_3me1l")
+radius = 0.06
+height = 0.13
+radial_segments = 4
+rings = 5
+
+[node name="JuiceSpurt" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.531274, 0)
+amount = 24
+lifetime = 0.6
+explosiveness = 0.49
+randomness = 0.22
+trail_lifetime = 0.42
+process_material = SubResource("ParticleProcessMaterial_xp77r")
+draw_pass_1 = SubResource("SphereMesh_72g6y")

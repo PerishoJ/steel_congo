@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b0nyod816v670"]
+[gd_scene load_steps=23 format=3 uid="uid://b0nyod816v670"]
 
 [ext_resource type="Texture2D" uid="uid://bs7kdq6insoux" path="res://levels/sky/SkySkybox.png" id="1_5bxh1"]
 [ext_resource type="Texture2D" uid="uid://qs7ce4iassro" path="res://levels/TexturesCom_Scifi_Panel_512_albedo.png" id="1_sxd31"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://GameController.gd" id="5_017x8"]
 [ext_resource type="PackedScene" uid="uid://dkll8wbvgc6wk" path="res://player/player.tscn" id="7_iqk8n"]
 [ext_resource type="PackedScene" uid="uid://clg3awfyiepdk" path="res://player/commandPoint/command_point.tscn" id="8_gbeg4"]
+[ext_resource type="Script" path="res://bot/HitBox.gd" id="9_dm05v"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_j2kfa"]
 panorama = ExtResource("1_5bxh1")
@@ -49,6 +50,12 @@ subdivide_depth = 4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nudev"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_rx0wu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1xt1i"]
+radius = 0.25
+height = 1.0
+
 [node name="Level" type="Node3D"]
 
 [node name="Bot" parent="." instance=ExtResource("1_tc18i")]
@@ -62,7 +69,7 @@ environment = SubResource("Environment_xccmh")
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Factory"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2.2505)
 mesh = SubResource("BoxMesh_a2q0q")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Factory"]
@@ -102,6 +109,19 @@ shape = SubResource("BoxShape3D_nudev")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.98178, 0.567994, 8.96696)
 
 [node name="CommandPoint" parent="." instance=ExtResource("8_gbeg4")]
+
+[node name="HitBox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.866466, 1.62694, 4.47407)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_dm05v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("SphereShape3D_rx0wu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HitBox"]
+mesh = SubResource("CapsuleMesh_1xt1i")
 
 [connection signal="command_to_location" from="Player" to="Bot" method="_on_player_command_to_location"]
 [connection signal="command_to_location" from="Player" to="CommandPoint" method="_on_player_command_to_location"]

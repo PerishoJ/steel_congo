@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://nsrp05i8ffmn"]
+[gd_scene load_steps=8 format=3 uid="uid://nsrp05i8ffmn"]
 
 [ext_resource type="Script" path="res://BotController.gd" id="1_mnp66"]
 [ext_resource type="Script" path="res://HpManager.gd" id="2_2po38"]
+[ext_resource type="Script" path="res://bot/HurtBox.gd" id="4_u2ycy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pwoee"]
 radius = 0.25
@@ -18,7 +19,9 @@ height = 1.0
 radial_segments = 12
 rings = 3
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_hy3bm"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ndhco"]
+radius = 0.25
+height = 1.0
 
 [node name="Bot" type="CharacterBody3D"]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
@@ -41,16 +44,16 @@ totalHp = 10
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.125, 0)
 billboard = 2
 
-[node name="BasicAttack" type="Area3D" parent="."]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.00274479, 0.721305, 0.4892)
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BasicAttack"]
-shape = SubResource("SphereShape3D_hy3bm")
-disabled = true
-
 [node name="_debug_label_name" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 billboard = 2
+
+[node name="HurtBox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("4_u2ycy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+shape = SubResource("CapsuleShape3D_ndhco")

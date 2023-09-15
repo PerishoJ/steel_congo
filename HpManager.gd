@@ -6,9 +6,16 @@ var debug: bool = false;
 @onready var _debug_label : Label3D = $_debug_lbl_Hp
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_connect_hurtBox_signals()
 	_init_debug()
-	
-	
+
+func _connect_hurtBox_signals():
+	var hurtBoxes = owner.find_children("","HurtBox",true, true)
+	print("found "+str(len(hurtBoxes))+" hurtboxes. Connecting")
+	for box in hurtBoxes:
+		box.hurt.connect(hurt)
+		
+		
 func _init_debug():
 	debug = (get_parent() as RobotController).debug
 	print("Hp manager is "+str(debug))

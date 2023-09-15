@@ -116,6 +116,7 @@ collision_layer = 2
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_dm05v")
+damage = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
 shape = SubResource("SphereShape3D_rx0wu")

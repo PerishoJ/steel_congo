@@ -22,6 +22,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	if debug:
 		$_debug_label_name.text = character_name
+	
 
 func _physics_process(delta):
 	# Add the gravity.

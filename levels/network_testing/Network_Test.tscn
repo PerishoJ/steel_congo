@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmknv4tftn1ey"]
+
+[ext_resource type="Script" path="res://levels/network_testing/Chat_Test.gd" id="1_23rxc"]
+
+[node name="Network_Test" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.196078, 0.196078, 1)
+script = ExtResource("1_23rxc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input" type="TextEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="VBoxContainer"]
+_spawnable_scenes = PackedStringArray("res://levels/network_testing/chat_comment.tscn")
+spawn_path = NodePath("../Comments")
+spawn_limit = 1056
+
+[node name="Comments" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2

@@ -57,3 +57,6 @@ script = ExtResource("4_u2ycy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
 shape = SubResource("CapsuleShape3D_ndhco")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+visibility_update_mode = 1

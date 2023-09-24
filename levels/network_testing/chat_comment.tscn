@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://bp0rafj78qya2"]
+
+[node name="CommentLabel" type="Label"]
+custom_minimum_size = Vector2(0, 35)

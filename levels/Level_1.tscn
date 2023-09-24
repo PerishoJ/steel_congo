@@ -58,10 +58,6 @@ height = 1.0
 
 [node name="Level" type="Node3D"]
 
-[node name="Bot" parent="." instance=ExtResource("1_byoct")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, 0)
-debug = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xccmh")
 
@@ -124,5 +120,16 @@ shape = SubResource("SphereShape3D_rx0wu")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="HitBox"]
 mesh = SubResource("CapsuleMesh_1xt1i")
 
-[connection signal="command_to_location" from="Player" to="Bot" method="_on_player_command_to_location"]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://bot/bot.tscn")
+spawn_path = NodePath("../Spawner")
+spawn_limit = 64
+
+[node name="Spawner" type="Node3D" parent="."]
+
+[node name="Bot" parent="Spawner" instance=ExtResource("1_byoct")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -9, 0, 0)
+debug = true
+
 [connection signal="command_to_location" from="Player" to="CommandPoint" method="_on_player_command_to_location"]
+[connection signal="command_to_location" from="Player" to="Spawner/Bot" method="_on_player_command_to_location"]

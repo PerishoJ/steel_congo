@@ -24,10 +24,5 @@ custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="VBoxContainer"]
-_spawnable_scenes = PackedStringArray("res://levels/network_testing/chat_comment.tscn")
-spawn_path = NodePath("../Comments")
-spawn_limit = 1056
-
 [node name="Comments" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

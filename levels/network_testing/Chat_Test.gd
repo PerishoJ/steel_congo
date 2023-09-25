@@ -11,19 +11,13 @@ func _input(event):
   if event is InputEventKey and (event as InputEventKey).physical_keycode == KEY_ENTER:
     if inputTextField.text.strip_edges(true,true) == "":
       print("empty field")
-      pass
     else:
-      post_comment( inputTextField.text.strip_edges(true,true) )
+      rpc ( "post_comment" ,( inputTextField.text.strip_edges(true,true) ) )
       inputTextField.text = ""
-    pass
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-  pass
 
-
-@rpc()
+@rpc("any_peer","call_local")
 func post_comment(commentText):
-  print("commenting " + commentText )
+  print("commenting " + commentText +"  --  " +str(multiplayer.get_unique_id()))
   var comment = commentField.instantiate()
   comment.name = str(multiplayer.get_unique_id())
   comment.text = "Name:"+commentText

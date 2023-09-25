@@ -1,56 +1,42 @@
 extends Node
 
-@onready var connect_check : Timer 
+
+var Id: String
+var _port: int = 20001
+
+func _init():
+  Id= str( randi_range(1,9999) )
+
 
 func _ready():
-  _connect_client()
-  pass
-  
-  
-func _connect_client():
-  var network = ENetMultiplayerPeer.new()
-  network.create_client("localhost",20101)
+  #negotiate client/server model
+  var network: MultiplayerPeer = ENetMultiplayerPeer.new()
+  network.create_client("localhost",_port)
+  network.peer_connected.connect(_peer_connected)
   multiplayer.multiplayer_peer = network
-  #var id = multiplayer.get_unique_id()
-  print("Starting Client : "+str(multiplayer.get_unique_id()))
-  _setup_connectivity_check()
-  
-  
-func _setup_connectivity_check():
-  connect_check = Timer.new();
-  self.add_child(connect_check)
-  connect_check.one_shot = true
-  connect_check.start(randf_range(0.21,3.14))
-  connect_check.timeout.connect(_timeout_handler)
+  _delayed_server_startup_init()
+
+func _peer_connected():
+  print(Id + " remains a client")
+  DisplayServer.window_set_title("Client:"+Id)
 
 
-func _timeout_handler():
-  print("checking for connectivity")
-  if(multiplayer.multiplayer_peer.get_connection_status()==MultiplayerPeer.CONNECTION_CONNECTED):
-    print("Connected Successfully")
+func _delayed_server_startup_init():
+  var _delay_timer : Timer = Timer.new();
+  self.add_child(_delay_timer)
+  _delay_timer.timeout.connect(_server_check)
+  _delay_timer.start( randf_range( 1.0 , 4.0 ) )
+  pass
+
+func _server_check():
+  if not is_connected_to_server():
+    var network: MultiplayerPeer = ENetMultiplayerPeer.new()
+    network.create_server(_port)
+    multiplayer.multiplayer_peer = network
+    DisplayServer.window_set_title("Server:"+Id)
   else:
-    print("...not connected")
-    _connect_server()
-    pass
-
-
-func _connect_server():
-  # try connecting to as the server
-  var network = ENetMultiplayerPeer.new()
-  network.create_server(20101)
-  multiplayer.multiplayer_peer = network
-  print("Starting Server")
-  #setup connection/disconnect signal handlers
-  network.peer_connected.connect(connect_client)
-  network.peer_disconnected.connect(disconnect_client)
-  pass
-
-
-func connect_client(_id):
-  print("Client Connected")
-  pass
-  
-  
-func disconnect_client(_id):
-  print("Client Disconnected")
-  pass
+    _peer_connected()
+    
+func is_connected_to_server() -> bool:
+  return ( not multiplayer.multiplayer_peer is OfflineMultiplayerPeer) \
+    and multiplayer.multiplayer_peer.get_connection_status()==MultiplayerPeer.CONNECTION_CONNECTED

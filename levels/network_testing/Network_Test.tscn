@@ -26,3 +26,15 @@ size_flags_vertical = 8
 
 [node name="Comments" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+
+[node name="ServerButton" type="Button" parent="VBoxContainer/Comments"]
+layout_mode = 2
+toggle_mode = true
+text = "Activate Server"
+
+[node name="ClientButton" type="Button" parent="VBoxContainer/Comments"]
+layout_mode = 2
+text = "Enable Client"
+
+[connection signal="pressed" from="VBoxContainer/Comments/ServerButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Comments/ClientButton" to="." method="_on_client_button_pressed"]

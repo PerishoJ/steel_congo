@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c2muib2ssoaae"]
+
+[node name="Networking_Test_2_3D" type="Node3D"]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("SpawnPoint")
+
+[node name="SpawnPoint" type="Node3D" parent="MultiplayerSpawner"]

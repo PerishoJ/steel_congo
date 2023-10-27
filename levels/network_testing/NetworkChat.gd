@@ -23,7 +23,7 @@ func connect_client():
   multiplayer.multiplayer_peer = network
   #_delayed_server_startup_init()
 
-func _peer_connected():
+func _peer_connected(peer):
   print(Id + " remains a client")
   DisplayServer.window_set_title("Client:"+Id)
 

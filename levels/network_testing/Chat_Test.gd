@@ -7,13 +7,20 @@ extends ColorRect
 func _ready():
   pass # Replace with function body.
 
-func _input(event):
-  if event is InputEventKey and (event as InputEventKey).physical_keycode == KEY_ENTER:
-    if inputTextField.text.strip_edges(true,true) == "":
-      print("empty field")
-    else:
-      rpc ( "post_comment" ,( inputTextField.text.strip_edges(true,true) ) )
-      inputTextField.text = ""
+func _unhandled_input(event):
+  print("INPUT -> " + str(inputTextField.text))
+  if event is InputEventKey:
+    print (str((event as InputEventKey).physical_keycode) + " against : " + str(KEY_ENTER))
+    if _is_enter(event):
+      validate_and_call_post()
+
+func validate_and_call_post():
+  if inputTextField.text.strip_edges(true,true) == "":
+    print("empty field")
+  else:
+    rpc ( "post_comment" ,( inputTextField.text.strip_edges(true,true) ) )
+    inputTextField.text = ""
+
 
 @rpc("any_peer","call_local")
 func post_comment(commentText):
@@ -22,7 +29,9 @@ func post_comment(commentText):
   comment.name = str(multiplayer.get_unique_id())
   comment.text = "Name:"+commentText
   comments.add_child(comment)
-
+  
+func _is_enter(event):
+  return (event as InputEventKey).physical_keycode == KEY_ENTER or (event as InputEventKey).physical_keycode == KEY_KP_ENTER
 
 func _on_button_pressed():
   var btn:Button = $VBoxContainer/Comments/ServerButton 
@@ -44,3 +53,5 @@ func _on_client_button_pressed():
   btn = $VBoxContainer/Comments/ServerButton 
   btn.disabled = true
   pass # Replace with function body.
+
+

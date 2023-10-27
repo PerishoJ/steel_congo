@@ -22,3 +22,25 @@ func post_comment(commentText):
   comment.name = str(multiplayer.get_unique_id())
   comment.text = "Name:"+commentText
   comments.add_child(comment)
+
+
+func _on_button_pressed():
+  var btn:Button = $VBoxContainer/Comments/ServerButton 
+  btn.disabled = true
+  btn.text = "Server Mode Enabled"
+  NetworkChat.make_server()
+  # disable client option
+  btn = $VBoxContainer/Comments/ClientButton 
+  btn.disabled = true
+  pass # Replace with function body.
+
+
+func _on_client_button_pressed():
+  var btn:Button = $VBoxContainer/Comments/ClientButton 
+  btn.disabled = true
+  btn.text = "Client Mode Enabled"
+  NetworkChat.connect_client()
+  # disable server option
+  btn = $VBoxContainer/Comments/ServerButton 
+  btn.disabled = true
+  pass # Replace with function body.

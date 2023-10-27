@@ -23,7 +23,8 @@ func start():
   
   
 func _start_server():
-  var network = ENetMultiplayerPeer.new()
+  var network = WebSocketMultiplayerPeer.new();
+  #var network = ENetMultiplayerPeer.new()
   network.create_server(9999)
   multiplayer.multiplayer_peer = network
   print("Starting Server")
@@ -33,8 +34,10 @@ func _start_server():
   pass
   
 func _start_client():
-  var network = ENetMultiplayerPeer.new()
-  network.create_client("localhost",9999)
+  #var network = ENetMultiplayerPeer.new()
+  var network = WebSocketMultiplayerPeer.new()
+  
+  network.create_client("localhost:9999")
   multiplayer.multiplayer_peer = network
   #var id = multiplayer.get_unique_id()
   print("Starting Client : "+str(multiplayer.get_unique_id()))

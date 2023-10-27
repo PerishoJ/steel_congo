@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
-NetworkingImpl="res://NetworkingImpl.gd"
 NetworkChat="*res://levels/network_testing/NetworkChat.gd"
 
 [editor]
